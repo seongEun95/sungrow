@@ -26,7 +26,7 @@ export default function PVEnergyFlowCanvas({ data = defaultData }: PVEnergyFlowC
       {/* 중앙 SVG 일러스트 */}
       <div className="absolute inset-0 flex h-[260px] pt-18 justify-center items-center">
         <img
-          src="/pms/pms.svg"
+          src="/pms.svg"
           alt="발전소 설비 개요 다이어그램"
           className="w-auto h-full max-h-full object-contain"
         />

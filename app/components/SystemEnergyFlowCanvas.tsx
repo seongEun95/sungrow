@@ -31,7 +31,7 @@ export default function SystemEnergyFlowCanvas({ data = defaultData }: SystemEne
       {/* 중앙 SVG 일러스트 */}
       <div className="absolute inset-0 flex justify-center items-center">
         <img
-          src="/pms/pms-t.png"
+          src="/pms-t.png"
           alt="발전소 설비 개요 다이어그램"
           className="w-auto h-full max-h-full object-contain"
         />
