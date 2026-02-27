@@ -26,7 +26,7 @@ export default function Sidebar() {
         <div className="">
           <Link href="/">
             <span className="text-xl font-semibold text-gray-900">
-              <Image src="/logo.png" alt="logo" width={218} height={31} />
+              <Image src="/Logo.png" alt="logo" width={218} height={31} />
             </span>
           </Link>
         </div>
