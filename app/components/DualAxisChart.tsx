@@ -1,7 +1,26 @@
 'use client';
 
 import { useEffect, useState } from 'react';
-import { LineChart, Line, XAxis, YAxis, CartesianGrid, ResponsiveContainer, ReferenceLine } from 'recharts';
+import { LineChart, Line, XAxis, YAxis, CartesianGrid, ResponsiveContainer, ReferenceLine, Tooltip } from 'recharts';
+
+const CustomTooltip = ({ active, payload, label }: any) => {
+  if (active && payload && payload.length) {
+    const powerVal = payload.find((p: any) => p.dataKey === 'power');
+    const socVal = payload.find((p: any) => p.dataKey === 'soc');
+    return (
+      <div className="bg-white border border-[#e4e4e7] rounded-xl shadow-lg px-3 py-2 text-[12px]">
+        <p className="font-semibold text-[#0a112f] mb-1">{label}</p>
+        {powerVal && (
+          <p className="text-[#ff7300]">총 활성 전력: <span className="font-bold">{(powerVal.value * 100).toFixed(0)} kW</span></p>
+        )}
+        {socVal && (
+          <p className="text-[#ffca28]">온라인 SOC: <span className="font-bold">{socVal.value}%</span></p>
+        )}
+      </div>
+    );
+  }
+  return null;
+};
 
 const data = [
   { time: '10:00', power: 0, soc: 100 },
@@ -66,6 +85,11 @@ export default function DualAxisChart() {
                 tickLine={false}
               />
               
+              <Tooltip
+                content={<CustomTooltip />}
+                cursor={{ stroke: '#3981f7', strokeWidth: 1, strokeDasharray: '4 2' }}
+              />
+
               {/* 가로 참조선들 */}
               <ReferenceLine 
                 yAxisId="left"

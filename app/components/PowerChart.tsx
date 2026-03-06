@@ -9,15 +9,16 @@ import {
   YAxis,
   CartesianGrid,
   ResponsiveContainer,
+  Tooltip,
 } from 'recharts';
 
 /**
  * 채움 영역 구현 (이중 레이어 + 흰색 마스크 기법):
  *
- *  Layer 1 - yellowBand : 0 ~ 0.5 전 구간 노란색
+ *  Layer 1 - yellowBand : 0 ~ 0.5 전 구간 노란색 (그라데이션)
  *  Layer 2 - whiteMask  : 0 ~ min(pv, 0.5) 흰색으로 덮어 PV 곡선 아래 노란색 제거
  *    → 결과: PV 곡선(하단) ~ 주황선(상단) 사이만 노란색 (이미지와 동일)
- *  Layer 3 - grayFill   : 0.5 ~ pv, pv > 0.5 구간 회색
+ *  Layer 3 - grayFill   : 0.5 ~ pv, pv > 0.5 구간 회색 (그라데이션)
  *  Layer 4 - grid 선    : 주황 수평선 (0.5)
  *  Layer 5 - pv 선      : 녹색 종 모양 곡선
  */
@@ -65,6 +66,26 @@ const REVEAL_STYLE = `
 }
 `;
 
+// 커스텀 툴팁 컴포넌트
+const CustomTooltip = ({ active, payload, label }: any) => {
+  if (active && payload && payload.length) {
+    const pvVal = payload.find((p: any) => p.dataKey === 'pv');
+    const gridVal = payload.find((p: any) => p.dataKey === 'grid');
+    return (
+      <div className="bg-white border border-[#e4e4e7] rounded-xl shadow-lg px-3 py-2 text-[12px]">
+        <p className="font-semibold text-[#0a112f] mb-1">{label}</p>
+        {gridVal && (
+          <p className="text-[#ff7300]">계통 전력: <span className="font-bold">{(gridVal.value * 100).toFixed(0)} kW</span></p>
+        )}
+        {pvVal && (
+          <p className="text-[#22c55e]">PV 발전 전력: <span className="font-bold">{(pvVal.value * 100).toFixed(0)} kW</span></p>
+        )}
+      </div>
+    );
+  }
+  return null;
+};
+
 export default function PowerChart() {
   const [isMounted, setIsMounted] = useState(false);
   const [animKey, setAnimKey]     = useState(0);
@@ -90,6 +111,19 @@ export default function PowerChart() {
               data={data}
               margin={{ top: 8, right: 10, left: -15, bottom: 5 }}
             >
+              <defs>
+                {/* 주황(노란) 영역 그라데이션: 위는 진하고 아래로 갈수록 투명 */}
+                <linearGradient id="orangeGradient" x1="0" y1="0" x2="0" y2="1">
+                  <stop offset="0%" stopColor="#f5c500" stopOpacity={0.9} />
+                  <stop offset="100%" stopColor="#f5c500" stopOpacity={0.1} />
+                </linearGradient>
+                {/* 회색 영역 그라데이션: 위는 진하고 아래로 갈수록 투명 */}
+                <linearGradient id="grayGradient" x1="0" y1="0" x2="0" y2="1">
+                  <stop offset="0%" stopColor="#a8a8a8" stopOpacity={0.7} />
+                  <stop offset="100%" stopColor="#a8a8a8" stopOpacity={0.05} />
+                </linearGradient>
+              </defs>
+
               <CartesianGrid strokeDasharray="0" stroke="#e8e8e8" vertical={false} />
               <XAxis
                 dataKey="time"
@@ -106,12 +140,18 @@ export default function PowerChart() {
                 ticks={[0, 0.25, 0.5, 0.75, 1]}
               />
 
-              {/* Layer 1: 전 구간 노란 밴드 (0 ~ 0.5) */}
+              {/* 마우스 호버 툴팁 */}
+              <Tooltip
+                content={<CustomTooltip />}
+                cursor={{ stroke: '#3981f7', strokeWidth: 1, strokeDasharray: '4 2' }}
+              />
+
+              {/* Layer 1: 전 구간 노란 밴드 (0 ~ 0.5) - 그라데이션 적용 */}
               <Area
                 type="monotone"
                 dataKey="yellowBand"
                 stroke="none"
-                fill="#f5c500"
+                fill="url(#orangeGradient)"
                 fillOpacity={1}
                 baseValue={0}
                 isAnimationActive={false}
@@ -128,13 +168,13 @@ export default function PowerChart() {
                 isAnimationActive={false}
               />
 
-              {/* Layer 3: 회색 채움 (0.5 ~ pv, pv > 0.5 구간만) */}
+              {/* Layer 3: 회색 채움 (0.5 ~ pv, pv > 0.5 구간만) - 그라데이션 적용 */}
               <Area
                 type="monotone"
                 dataKey="grayFill"
                 stroke="none"
-                fill="#a8a8a8"
-                fillOpacity={0.45}
+                fill="url(#grayGradient)"
+                fillOpacity={1}
                 baseValue={GRID_VALUE}
                 isAnimationActive={false}
               />

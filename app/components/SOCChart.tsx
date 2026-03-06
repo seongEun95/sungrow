@@ -1,7 +1,7 @@
 'use client';
 
 import { useEffect, useState } from 'react';
-import { AreaChart, Area, XAxis, YAxis, CartesianGrid, ResponsiveContainer } from 'recharts';
+import { AreaChart, Area, XAxis, YAxis, CartesianGrid, ResponsiveContainer, Tooltip } from 'recharts';
 
 const data = [
   { time: '10:00', value: 5 },
@@ -18,6 +18,18 @@ const data = [
   { time: '10:55', value: 8 },
   { time: '11:00', value: 6 },
 ];
+
+const CustomTooltip = ({ active, payload, label }: any) => {
+  if (active && payload && payload.length) {
+    return (
+      <div className="bg-white border border-[#e4e4e7] rounded-xl shadow-lg px-3 py-2 text-[12px]">
+        <p className="font-semibold text-[#0a112f] mb-1">{label}</p>
+        <p className="text-[#ff7300]">충전 상태: <span className="font-bold">{payload[0].value}%</span></p>
+      </div>
+    );
+  }
+  return null;
+};
 
 export default function SOCChart() {
   const [isMounted, setIsMounted] = useState(false);
@@ -60,6 +72,10 @@ export default function SOCChart() {
                 tickLine={false}
                 domain={[0, 20]}
                 ticks={[0, 5, 10, 15, 20]}
+              />
+              <Tooltip
+                content={<CustomTooltip />}
+                cursor={{ stroke: '#ff7300', strokeWidth: 1, strokeDasharray: '4 2' }}
               />
               <Area 
                 type="monotone" 
