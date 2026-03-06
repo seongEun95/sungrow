@@ -1,7 +1,24 @@
 'use client';
 
 import { useEffect, useState } from 'react';
-import { BarChart, Bar, XAxis, YAxis, CartesianGrid, ResponsiveContainer } from 'recharts';
+import { BarChart, Bar, XAxis, YAxis, CartesianGrid, ResponsiveContainer, Tooltip } from 'recharts';
+
+const CustomTooltip = ({ active, payload, label }: any) => {
+  if (active && payload && payload.length) {
+    return (
+      <div className="bg-white border border-[#e4e4e7] rounded-xl shadow-lg px-3 py-2 text-[12px]">
+        <p className="font-semibold text-[#0a112f] mb-1">{label}</p>
+        {payload.map((p: any) => (
+          <p key={p.dataKey} style={{ color: p.fill }}>
+            {p.dataKey === 'charge' ? 'ESS 일일 충전량' : 'ESS 일일 방전량'}:{' '}
+            <span className="font-bold">{p.value} kWh</span>
+          </p>
+        ))}
+      </div>
+    );
+  }
+  return null;
+};
 
 // ESS 충방전 현황 7일 mock 데이터
 const essBarData = [
@@ -51,6 +68,10 @@ export default function ESSWeeklyChart() {
                 tickLine={false}
                 domain={[0, 800]}
                 ticks={[0, 200, 400, 600, 800]}
+              />
+              <Tooltip
+                content={<CustomTooltip />}
+                cursor={{ fill: 'rgba(0,0,0,0.04)' }}
               />
               {/* ESS 일일 충전량 - 주황 */}
               <Bar

@@ -7,13 +7,13 @@ import clsx from 'clsx';
 import Image from 'next/image';
 
 const menuItems = [
-  { icon: Home, label: '대시보드', href: '/' },
-  { icon: CreditCard, label: '장비 모니터링', href: '/device-monitoring' },
-  { icon: FileText, label: '장비 유지보수', href: '#' },
-  { icon: Power, label: '장비 ON/OFF', href: '#' },
-  { icon: Repeat, label: '에너지 관리', href: '#' },
-  { icon: Shield, label: '전력 제어', href: '#' },
-  { icon: Edit, label: '이력관리', href: '#' },
+  { icon: Home,       label: '대시보드',     href: '/',                  activePaths: ['/', '/pv-bess/'] },
+  { icon: CreditCard, label: '장비 모니터링', href: '/device-monitoring', activePaths: ['/device-monitoring/'] },
+  { icon: FileText,   label: '장비 유지보수', href: '#',                  activePaths: [] },
+  { icon: Power,      label: '장비 ON/OFF',  href: '#',                  activePaths: [] },
+  { icon: Repeat,     label: '에너지 관리',   href: '#',                  activePaths: [] },
+  { icon: Shield,     label: '전력 제어',     href: '#',                  activePaths: [] },
+  { icon: Edit,       label: '이력관리',      href: '#',                  activePaths: [] },
 ];
 
 export default function Sidebar() {
@@ -37,8 +37,10 @@ export default function Sidebar() {
         {menuItems.map((item, index) => {
           const Icon = item.icon;
           // /pv-bess도 대시보드(/) 메뉴를 활성화
-          const isActive = pathname === item.href ||
-            (item.href === '/' && pathname === '/pv-bess');
+          // const isActive = pathname === item.href ||
+          //   (item.href === '/' && pathname === '/pv-bess');
+                      // activePaths에 현재 pathname이 포함되면 해당 메뉴 활성화
+          const isActive = item.activePaths.includes(pathname);
           
           return (
             <Link
