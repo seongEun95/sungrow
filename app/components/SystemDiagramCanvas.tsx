@@ -226,7 +226,7 @@ export default function SystemDiagramCanvas() {
             d="M 170 300 L 320 300 L 320 240 L 435 240"
           />
           {/* 충전 모드: PCS에서 ESS로 (아래쪽) */}
-          <path id="pcsToEssPath" d="M 170 295 L 170 450" />
+          <path id="pcsToEssPath" d="M 170 170 L 170 445" />
         </defs>
 
         {/* ===== 방전 모드 (ESS → 계통 / 부하) ===== */}
