@@ -1,8 +1,8 @@
-'use client';
+"use client";
 
-import { EnergyFlowData } from './PVEnergyFlowDiagram';
-import InfoCard from './InfoCard';
-import Image from 'next/image';
+import { EnergyFlowData } from "./PVEnergyFlowDiagram";
+import InfoCard from "./InfoCard";
+import Image from "next/image";
 
 /**
  * PVEnergyFlowDiagram 전용 에너지 흐름 캔버스
@@ -20,7 +20,9 @@ interface PVEnergyFlowCanvasProps {
   data?: EnergyFlowData;
 }
 
-export default function PVEnergyFlowCanvas({ data = defaultData }: PVEnergyFlowCanvasProps) {
+export default function PVEnergyFlowCanvas({
+  data = defaultData,
+}: PVEnergyFlowCanvasProps) {
   return (
     <div className="relative w-full h-full min-h-[100px]">
       {/* 중앙 SVG 일러스트 */}
@@ -39,7 +41,11 @@ export default function PVEnergyFlowCanvas({ data = defaultData }: PVEnergyFlowC
         <InfoCard
           title="발전소"
           items={[
-            { label: '유효전력', value: `${data.pv.activePower} kW`, bold: true },
+            {
+              label: "유효전력",
+              value: `${data.pv.activePower} kW`,
+              bold: true,
+            },
           ]}
         />
       </div>
@@ -49,8 +55,12 @@ export default function PVEnergyFlowCanvas({ data = defaultData }: PVEnergyFlowC
         <InfoCard
           title="계통"
           items={[
-            { label: '유효전력', value: `${data.grid.activePower} kW`, bold: true },
-            { label: '역률', value: `${data.grid.powerFactor} kW`, bold: true },
+            {
+              label: "유효전력",
+              value: `${data.grid.activePower} kW`,
+              bold: true,
+            },
+            { label: "역률", value: `${data.grid.powerFactor}`, bold: true },
           ]}
           twoColumn
         />
@@ -61,8 +71,16 @@ export default function PVEnergyFlowCanvas({ data = defaultData }: PVEnergyFlowC
         <InfoCard
           title="에너지 저장 장치"
           items={[
-            { label: '유효전력', value: `${data.ess.activePower} kW`, bold: true },
-            { label: '전력 충전량', value: `${data.ess.chargeAmount} kW`, bold: true },
+            {
+              label: "유효전력",
+              value: `${data.ess.activePower} kW`,
+              bold: true,
+            },
+            {
+              label: "전력 충전량",
+              value: `${data.ess.chargeAmount} kWh`,
+              bold: true,
+            },
           ]}
           twoColumn
         />
@@ -73,7 +91,11 @@ export default function PVEnergyFlowCanvas({ data = defaultData }: PVEnergyFlowC
         <InfoCard
           title="부하"
           items={[
-            { label: '유효전력', value: `${data.load.activePower} kW`, bold: true },
+            {
+              label: "유효전력",
+              value: `${data.load.activePower} kW`,
+              bold: true,
+            },
           ]}
         />
       </div>

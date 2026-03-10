@@ -1,6 +1,6 @@
-'use client';
+"use client";
 
-import InfoCard from './InfoCard';
+import InfoCard from "./InfoCard";
 
 /**
  * SystemDiagram 전용 에너지 흐름 캔버스
@@ -27,7 +27,9 @@ interface SystemEnergyFlowCanvasProps {
   data?: SystemEnergyFlowData;
 }
 
-export default function SystemEnergyFlowCanvas({ data = defaultData }: SystemEnergyFlowCanvasProps) {
+export default function SystemEnergyFlowCanvas({
+  data = defaultData,
+}: SystemEnergyFlowCanvasProps) {
   return (
     <div className="relative w-full h-full min-h-[300px]">
       {/* 중앙 SVG 일러스트 */}
@@ -56,7 +58,11 @@ export default function SystemEnergyFlowCanvas({ data = defaultData }: SystemEne
         <InfoCard
           title="PCS"
           items={[
-            { label: '유효전력', value: `${data.pcs.activePower} kW`, bold: true },
+            {
+              label: "유효전력",
+              value: `${data.pcs.activePower} kW`,
+              bold: true,
+            },
           ]}
         />
       </div>
@@ -66,8 +72,12 @@ export default function SystemEnergyFlowCanvas({ data = defaultData }: SystemEne
         <InfoCard
           title="계통 (AC 전력)"
           items={[
-            { label: '유효전력', value: `${data.grid.activePower} kW`, bold: true },
-            { label: '역률', value: `${data.grid.powerFactor} kW`, bold: true },
+            {
+              label: "유효전력",
+              value: `${data.grid.activePower} kW`,
+              bold: true,
+            },
+            { label: "역률", value: `${data.grid.powerFactor}`, bold: true },
           ]}
           twoColumn
         />
@@ -78,9 +88,21 @@ export default function SystemEnergyFlowCanvas({ data = defaultData }: SystemEne
         <InfoCard
           title="에너지 저장 장치"
           items={[
-            { label: '유효전력', value: `${data.ess.activePower} kW`, bold: true },
-            { label: '전력 충전량', value: `${data.ess.chargeAmount} kW`, bold: true },
-            { label: '전력 방전량', value: `${data.ess.disChargeAmount} kW`, bold: true },
+            {
+              label: "유효전력",
+              value: `${data.ess.activePower} kW`,
+              bold: true,
+            },
+            {
+              label: "전력 충전량",
+              value: `${data.ess.chargeAmount} kWh`,
+              bold: true,
+            },
+            {
+              label: "전력 방전량",
+              value: `${data.ess.disChargeAmount} kWh`,
+              bold: true,
+            },
           ]}
           twoColumn
         />
@@ -91,7 +113,11 @@ export default function SystemEnergyFlowCanvas({ data = defaultData }: SystemEne
         <InfoCard
           title="부하"
           items={[
-            { label: '유효전력', value: `${data.load.activePower} kW`, bold: true },
+            {
+              label: "유효전력",
+              value: `${data.load.activePower} kW`,
+              bold: true,
+            },
           ]}
         />
       </div>

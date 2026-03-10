@@ -1,28 +1,45 @@
-'use client';
+"use client";
 
-import { useState } from 'react';
+import { useState } from "react";
+
+// 가격동향 mock 데이터 형식을 위한 날짜 유틸 기능
+const getFormattedDate = () => {
+  const today = new Date();
+  const yyyy = today.getFullYear();
+  const mm = String(today.getMonth() + 1).padStart(2, "0");
+  const dd = String(today.getDate()).padStart(2, "0");
+  const days = ["일", "월", "화", "수", "목", "금", "토"];
+  const day = days[today.getDay()];
+
+  return {
+    full: `${yyyy}.${mm}.${dd}.(${day})`,
+    simple: `${yyyy}.${mm}.${dd}.`,
+  };
+};
+
+const formattedDate = getFormattedDate();
 
 // 가격동향 mock 데이터
 const priceData = {
   land: {
-    date: '2026.02.05.(목)',
+    date: formattedDate.full,
     smp: 124.8,
     rec: 71540,
-    tradeDate: '2026.02.05.',
-    tradeVolume: '173,033',
+    tradeDate: formattedDate.simple,
+    tradeVolume: "173,033",
   },
   jeju: {
-    date: '2026.02.05.(목)',
+    date: formattedDate.full,
     smp: 98.5,
     rec: 68200,
-    tradeDate: '2026.02.05.',
-    tradeVolume: '173,033',
+    tradeDate: formattedDate.simple,
+    tradeVolume: "173,033",
   },
 };
 
 export default function PriceCard() {
   // 육지/제주 탭 상태
-  const [activeTab, setActiveTab] = useState<'land' | 'jeju'>('land');
+  const [activeTab, setActiveTab] = useState<"land" | "jeju">("land");
   const data = priceData[activeTab];
 
   return (
@@ -36,21 +53,21 @@ export default function PriceCard() {
         {/* 육지/제주 탭 */}
         <div className="flex rounded-lg border border-[#e4e4e7] overflow-hidden">
           <button
-            onClick={() => setActiveTab('land')}
+            onClick={() => setActiveTab("land")}
             className={`px-3 py-1.5 text-[14px] font-medium transition-colors ${
-              activeTab === 'land'
-                ? 'bg-[#ff7300] text-white'
-                : 'bg-white text-[#70707a] hover:bg-gray-50'
+              activeTab === "land"
+                ? "bg-[#ff7300] text-white"
+                : "bg-white text-[#70707a] hover:bg-gray-50"
             }`}
           >
             육지
           </button>
           <button
-            onClick={() => setActiveTab('jeju')}
+            onClick={() => setActiveTab("jeju")}
             className={`px-3 py-1.5 text-[14px] font-medium transition-colors border-l border-[#e4e4e7] ${
-              activeTab === 'jeju'
-                ? 'bg-[#ff7300] text-white'
-                : 'bg-white text-[#70707a] hover:bg-gray-50'
+              activeTab === "jeju"
+                ? "bg-[#ff7300] text-white"
+                : "bg-white text-[#70707a] hover:bg-gray-50"
             }`}
           >
             제주
@@ -63,7 +80,9 @@ export default function PriceCard() {
         <div>
           <p className="text-[14px] text-[#585c64]">SMP</p>
           <div className="flex items-baseline gap-1">
-            <span className="text-[22px] font-medium text-[#0a112f]">{data.smp}</span>
+            <span className="text-[22px] font-medium text-[#0a112f]">
+              {data.smp}
+            </span>
             <span className="text-[14px] text-[#585c64]">원/kWh</span>
           </div>
         </div>
@@ -73,7 +92,9 @@ export default function PriceCard() {
             <span className="text-[12px] text-[#585c64]">가중치 X 1.0</span>
           </div>
           <div className="flex items-baseline gap-1">
-            <span className="text-[22px] font-medium text-[#0a112f]">{data.rec.toLocaleString()}</span>
+            <span className="text-[22px] font-medium text-[#0a112f]">
+              {data.rec.toLocaleString()}
+            </span>
             <span className="text-[14px] text-[#585c64]">원/REC</span>
           </div>
         </div>
@@ -83,11 +104,15 @@ export default function PriceCard() {
       <div className="flex gap-2">
         <div className="flex items-center justify-between flex-1 bg-[#fff4eb] rounded-lg px-3 py-3">
           <p className="text-[14px] text-[#333333] font-medium">거래일</p>
-          <p className="text-[14px] font-semibold text-[#0a112f]">{data.tradeDate}</p>
+          <p className="text-[14px] font-semibold text-[#0a112f]">
+            {data.tradeDate}
+          </p>
         </div>
         <div className="flex items-center justify-between flex-1 bg-[#fff4eb] rounded-lg px-3 py-3">
           <p className="text-[14px] text-[#333333] font-medium">거래량</p>
-          <p className="text-[14px] font-semibold text-[#0a112f]">{data.tradeVolume}</p>
+          <p className="text-[14px] font-semibold text-[#0a112f]">
+            {data.tradeVolume}
+          </p>
         </div>
       </div>
     </div>

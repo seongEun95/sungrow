@@ -1,22 +1,30 @@
-'use client';
+"use client";
 
-import { useEffect, useState } from 'react';
-import { AreaChart, Area, XAxis, YAxis, CartesianGrid, ResponsiveContainer, Tooltip } from 'recharts';
+import { useEffect, useState } from "react";
+import {
+  AreaChart,
+  Area,
+  XAxis,
+  YAxis,
+  CartesianGrid,
+  ResponsiveContainer,
+  Tooltip,
+} from "recharts";
 
 const data = [
-  { time: '10:00', value: 5 },
-  { time: '10:05', value: 7 },
-  { time: '10:10', value: 9 },
-  { time: '10:15', value: 12 },
-  { time: '10:20', value: 15 },
-  { time: '10:25', value: 18 },
-  { time: '10:30', value: 19 },
-  { time: '10:35', value: 18 },
-  { time: '10:40', value: 16 },
-  { time: '10:45', value: 14 },
-  { time: '10:50', value: 11 },
-  { time: '10:55', value: 8 },
-  { time: '11:00', value: 6 },
+  { time: "10:00", value: 5 },
+  { time: "10:05", value: 7 },
+  { time: "10:10", value: 9 },
+  { time: "10:15", value: 12 },
+  { time: "10:20", value: 15 },
+  { time: "10:25", value: 18 },
+  { time: "10:30", value: 19 },
+  { time: "10:35", value: 18 },
+  { time: "10:40", value: 16 },
+  { time: "10:45", value: 14 },
+  { time: "10:50", value: 11 },
+  { time: "10:55", value: 8 },
+  { time: "11:00", value: 6 },
 ];
 
 const CustomTooltip = ({ active, payload, label }: any) => {
@@ -24,7 +32,9 @@ const CustomTooltip = ({ active, payload, label }: any) => {
     return (
       <div className="bg-white border border-[#e4e4e7] rounded-xl shadow-lg px-3 py-2 text-[12px]">
         <p className="font-semibold text-[#0a112f] mb-1">{label}</p>
-        <p className="text-[#ff7300]">충전 상태: <span className="font-bold">{payload[0].value}%</span></p>
+        <p className="text-[#ff7300]">
+          충전 상태: <span className="font-bold">{payload[0].value}%</span>
+        </p>
       </div>
     );
   }
@@ -48,39 +58,47 @@ export default function SOCChart() {
       <div className="h-[200px] mt-4">
         {isMounted && (
           <ResponsiveContainer width="100%" height="100%">
-            <AreaChart 
+            <AreaChart
               data={data}
-              margin={{ top: 5, right: 5, left: -20, bottom: 5 }}
+              margin={{ top: 5, right: 15, left: -20, bottom: 5 }}
             >
               <defs>
                 <linearGradient id="colorSoc" x1="0" y1="1" x2="0" y2="0">
-                  <stop offset="5%" stopColor="#ff7300" stopOpacity={0.3}/>
-                  <stop offset="95%" stopColor="#ff7300" stopOpacity={0.6}/>
+                  <stop offset="5%" stopColor="#ff7300" stopOpacity={0.3} />
+                  <stop offset="95%" stopColor="#ff7300" stopOpacity={0.6} />
                 </linearGradient>
               </defs>
-              <CartesianGrid strokeDasharray="0" stroke="#f0f0f0" vertical={false} />
-              <XAxis 
-                dataKey="time" 
-                tick={{ fontSize: 12, fill: '#000' }}
-                axisLine={{ stroke: '#e4e4e7' }}
+              <CartesianGrid
+                strokeDasharray="0"
+                stroke="#f0f0f0"
+                vertical={false}
+              />
+              <XAxis
+                dataKey="time"
+                tick={{ fontSize: 12, fill: "#000" }}
+                axisLine={{ stroke: "#e4e4e7" }}
                 tickLine={false}
                 interval={3}
               />
-              <YAxis 
-                tick={{ fontSize: 12, fill: '#000' }}
-                axisLine={{ stroke: '#e4e4e7' }}
+              <YAxis
+                tick={{ fontSize: 12, fill: "#000" }}
+                axisLine={{ stroke: "#e4e4e7" }}
                 tickLine={false}
                 domain={[0, 20]}
                 ticks={[0, 5, 10, 15, 20]}
               />
               <Tooltip
                 content={<CustomTooltip />}
-                cursor={{ stroke: '#ff7300', strokeWidth: 1, strokeDasharray: '4 2' }}
+                cursor={{
+                  stroke: "#ff7300",
+                  strokeWidth: 1,
+                  strokeDasharray: "4 2",
+                }}
               />
-              <Area 
-                type="monotone" 
-                dataKey="value" 
-                stroke="#ff7300" 
+              <Area
+                type="monotone"
+                dataKey="value"
+                stroke="#ff7300"
                 strokeWidth={2}
                 fill="url(#colorSoc)"
                 animationDuration={1500}
